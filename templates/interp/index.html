@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+{% load static %}
+<head>
+<style type="text/css" media="screen">
+    #editor { 
+        float : left
+        width: 90%;
+        height: 400px;
+    }
+    #send_button {
+        float: left;
+    }
+    #left {
+        float: left;
+        width: 60%;
+    }
+    #right {
+        float: left;
+        width: 40%;
+        background: #ada;
+    }
+    #right li {
+            float: right;
+        }
+
+</style>
+</head>
+<html lang="en">
+<body>
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js" ></script>
+    <script src="{% static "ace/ace.js" %}" type="text/javascript" charset="utf-8"></script>
+    <div id = "warpper">
+         <div id="left">
+            <div id="editor"/> </div>
+            <button id="send_button" >SUBMIT</button> 
+   <script>
+        var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/twilight");
+        editor.getSession().setMode("ace/mode/javascript");
+    </script>
+
+     </div>
+    
+    <div id="right">
+        <div id="result"></div>
+    </div>
+    </div>
+<script>
+    $( "#send_button" ).click(function( event ) {
+        event.preventDefault();
+        var posting = $.post( "do/", 
+        {
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            code: editor.getValue(),
+        },null, "text");
+        // Put the results in a div
+        posting.done(function( data ) {
+            var content =  data ;
+            $( "#result" ).empty().append( content );
+        });
+    });
+</script>
+    </body>
+</html>

@@ -1,0 +1,3 @@
+[submodule "parser"]
+	path = parser
+	url = git@github.com:istepura/mupl-py.git
