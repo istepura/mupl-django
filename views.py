@@ -2,7 +2,7 @@ from django.core.context_processors import csrf
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
 from django.template import RequestContext, loader
-from parser import *
+from parser.parser import *
 
 def index(request):
     c = {}
