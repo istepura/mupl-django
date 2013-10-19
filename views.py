@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.core.context_processors import csrf
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
