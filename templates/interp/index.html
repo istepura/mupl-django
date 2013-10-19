@@ -49,11 +49,18 @@
                     {
                         csrfmiddlewaretoken: '{{ csrf_token }}',
                         code: editor.getValue(),
-                    }, null, "text");
+                    });
                 // Put the results in a div
                 posting.done(function( data ) {
-                    var content =  data ;
-                    $( "#result" ).empty().append( content );
+                    var content =  data;
+                    if (content.status == "ok") {
+                        $( "#result" ).empty().append( content.result);
+                        }
+                        else{
+                            $("#result").empty().append("Error");
+                            editor.gotoLine(content.ln, content.col);
+                        }
+
                 });
             });
         </script>

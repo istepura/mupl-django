@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import json
 from django.core.context_processors import csrf
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
@@ -14,11 +15,18 @@ def go(request):
     if request.method == 'POST':
         s = request.POST["code"]
         prs = Parser(Lexer())
+        resp = {}
         try:
             ast = prs.parse(s)
-            return HttpResponse(str(ast.eval({})))
+            resp['status'] = 'ok'
+            resp['result'] = str(ast.eval({}))
         except Exception as e:
-            print e
-            return HttpResponse(str(e))
+            resp['status'] = 'fail'
+            if isinstance(e, ParserException):
+                resp['ln'] = e.coord[0]
+                resp['col'] = e.coord[1]
+            else: 
+                res = str(e)
+        return HttpResponse(json.dumps(resp), content_type="application/json")
 
 
