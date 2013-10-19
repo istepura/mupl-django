@@ -17,6 +17,7 @@ def go(request):
             ast = prs.parse(s)
             return HttpResponse(str(ast.eval({})))
         except Exception as e:
+            print e
             return HttpResponse(str(e))
 
 
