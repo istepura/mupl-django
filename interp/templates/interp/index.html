@@ -2,6 +2,30 @@
 {% load static %}
 <head>
     <style type="text/css" media="screen">
+        body{
+            margin: 0;
+            padding: 0;
+            border: 0;
+            overflow: hidden;
+            height: 100%; 
+            max-height: 100%; 
+        }
+        #leftpanel ,#right{
+            position: absolute;
+            top: 0;
+            bottom: 0; 
+            left: 0;
+            width: 200px; 
+            height: 100%;
+            overflow: hidden; 
+        }
+        #right {
+            left: auto;
+            right: 0; 
+            width: 200px; /*Width of right frame div*/
+            overflow: hidden; 
+            background-color : rgb(238, 238, 238);
+        }
         #editor { 
             height: 400px;
         }
@@ -9,14 +33,12 @@
             float: left;
         }
         #left {
-            float: left;
-            width: 60%;
-        }
-        #right {
-            float: right;
-            background-color : rgb(238, 238, 238);
-            height: 200px;
-            width: 40%;
+            position: fixed;
+            top : 0;
+            overflow: auto;
+            left: 200px;
+            bottom : 0;
+            right: 200px;
         }
         #result {
         }
@@ -24,9 +46,11 @@
 </head>
 <html lang="en">
     <body>
-        <script src="http://code.jquery.com/jquery-1.10.2.min.js" ></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="{% static "ace/ace.js" %}" type="text/javascript" charset="utf-8"></script>
-        <div id = "warpper">
+        <div id ="leftpanel">
+            <h1>CSS Left and Right Frames Layout</h1>
+        </div>
             <div id="left">
                 <div id="editor"/> </div>
                 <button id="send_button" >SUBMIT</button> 
@@ -37,11 +61,9 @@
                 </script>
 
             </div>
-
             <div id="right">
-                <span id="result" class = "short_text"> </span>
+                <p id="result" class = "short_text"> </p>
             </div>
-        </div>
         <script>
             $( "#send_button" ).click(function( event ) {
                 event.preventDefault();
