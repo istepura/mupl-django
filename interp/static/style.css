@@ -1,9 +1,9 @@
 #code{
 }
 #leftpanel {
-    height: 600px;
+    height: 650px;
     float:left;
-    width: 30%;
+    width: 34%;
 }
 #editor { 
     position: absolute; 
@@ -22,11 +22,8 @@
     background: #002b36;
 }
 #bottom {
-    border-top-color: rgb(61, 62, 62);
-    border-top-style: solid;
-    border-top-width: 1px;
     clear: right;
-    height: 10%;
+    height: 50px;
 }
 #result {
     font-family: 'Monaco','Menlo','Ubuntu Mono','Consolas','source-code-pro',monospace;
@@ -39,9 +36,15 @@
     position: absolute;
     right: 10px;
     bottom: 10px;
+    z-index:2;
 }
 #output {
     background-color: black;
     color: rgb(147, 161, 161);
+}
+
+#send_button {
+    top: 5px;
+    left: 10px;
 }
 
