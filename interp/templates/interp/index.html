@@ -1,123 +1,53 @@
 <!DOCTYPE html>
 {% load static %}
 <head>
-    <style type="text/css" media="screen">
-        body{
-            margin: 0;
-            padding: 0;
-            border: 0;
-            overflow: hidden;
-            height: 100%; 
-            max-height: 100%; 
-        }
-        #leftpanel ,#right{
-            position: absolute;
-            top: 0;
-            bottom: 0; 
-            left: 0;
-            height: 100%;
-            overflow: hidden; 
-        }
-        #leftpanel {
-            width: 200px; 
-        }
-        #right {
-            left: auto;
-            right: 0; 
-            width: 400px; /*Width of right frame div*/
-            overflow: hidden; 
-            background: #002b36;
-        }
-        #editor { 
-            height:90%;
-        }
-        #send_button {
-            cursor: pointer;
-            border-radius: 3px;
-            border: 1px solid transparent;
-            font-weight: bold !important;
-            height: 38px;
-            font-size: 13px;
-            line-height: 36px;obox-shadow: 1px 1px rgba(255, 255, 255, 0.1) inset, 1px 1px rgba(0, 0, 0, 0.1);
-            margin: 10px 10px;
-            background-image: -moz-linear-gradient(center top , rgba(255, 255, 255, 0.1), transparent);
-            background-color: rgb(0, 136, 204);
-            color: rgb(255, 255, 255);
-            border-color: rgba(0, 0, 0, 0.7);
-        }
-        #middle {
-            position: fixed;
-            top : 0;
-            overflow: hidden;
-            left: 200px;
-            bottom : 0;
-            right: 400px;
-            background: #002b36;
-        }
-        #bottom {
-            border-top-color: rgb(61, 62, 62);
-            border-top-style: solid;
-            border-top-width: 1px;
-            position: absolute;
-            right : 0px;
-            bottom : 0px;
-            left:  200px;
-            height: 10%;
-        }
-        #result {
-            font-family: 'Monaco','Menlo','Ubuntu Mono','Consolas','source-code-pro',monospace;
-            margin-top: 20px;
-            margin-right: 20px;
-            -moz-border-radius: 50px;
-            border-radius: 10px;
-            height: 200px;
-            background-color : black;
-            color: rgb(147, 161, 161);
-        }
-    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+    <script src="{% static "ace/ace.js" %}" type="text/javascript" charset="utf-8"></script>
+    <script src="{% static "code.js" %}" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="{% static "style.css" %}">
 </head>
 <html lang="en">
     <body>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script src="{% static "ace/ace.js" %}" type="text/javascript" charset="utf-8"></script>
         <div id ="leftpanel">
             <h1></h1>
         </div>
-            <div id="middle">
-                <div id="editor"/> </div>
-                <script>
-                    var editor = ace.edit("editor");
-                    editor.setTheme("ace/theme/solarized_dark");
-                    editor.setHighlightActiveLine(false);
-                    editor.setShowPrintMargin(false);
-                    editor.getSession().setMode("ace/mode/javascript");
-                </script>
-
+        <div id="middle">
+            <div id="editor"/> </div>
+            <div id="result" class="draggable ui-widget" title="You can drag this window">
+                <div class="ui-widget-header">Interpreter output</div>
+                 <div id="output" >
+                 </div>
             </div>
-            <div id="right">
-                <div id="result" class = "short_text">></div>
-            </div>
-            <div id="bottom">
-                <button id="send_button" >SUBMIT</button> 
-            </div>
+        </div>
+        <div id="bottom">
+            <button id="send_button" class="ui-button-text-only ui-button">SUBMIT</button> 
+        </div>
         <script>
+            var editor = ace.edit("editor");
+            editor.setTheme("ace/theme/solarized_dark");
+            editor.setHighlightActiveLine(false);
+            editor.setShowPrintMargin(false);
+            //editor.getSession().setMode("ace/mode/javascript");
+
             $( "#send_button" ).click(function( event ) {
                 event.preventDefault();
                 var posting = $.post( "do/", 
-                    {
-                        csrfmiddlewaretoken: '{{ csrf_token }}',
-                        code: editor.getValue(),
-                    });
+                {
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    code: editor.getValue(),
+                });
                 // Put the results in a div
                 posting.done(function( data ) {
                     var content =  data;
                     if (content.status == "ok") {
-                        $( "#result" ).empty().append( content.result);
-                        }
-                        else{
-                            $("#result").empty().append("Error");
-                            editor.gotoLine(content.ln, content.col);
-                        }
+                        $( "#output" ).empty().append( content.result);
+                    }
+                    else{
+                        $("#output").empty().append("Error");
+                        editor.gotoLine(content.ln, content.col);
+                    }
 
                 });
             });
