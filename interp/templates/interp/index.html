@@ -3,7 +3,6 @@
 <html lang="en">
     <head>
         <title>MUPL interpreter in Python</title>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
         <meta charset="utf-8">
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
@@ -16,8 +15,7 @@
     <body>
         <a href="https://github.com/istepura/mupl-django"><img style="position: absolute; top: 0; right: 0; border: 0;z-index:1;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
         <div id ="leftpanel" class="i-widget-content">
-            <h1></h1>
-            <div >
+            <div id="introtext">
                 <p>MUPL (Made Up Programming Language) is a toy programming language introduced by Dan Grossman in "Programming Languages" course at Coursera.</p>
                 <p>One of assignments of the course was to write an interpreter for MUPL in Racket.</p>
                 <p>This site uses MUPL interpreter written in Python.</p>
@@ -27,9 +25,10 @@
                 <br>
                 <p>Language specification can be found <a href="http://courses.cs.washington.edu/courses/cse341/13wi/hw5.pdf">here</a></p>
             </div>
+            
         </div>
         <div id="middle" class="i-widget-content">
-            <div id="editor"/> </div>
+            <div id="editor"></div>
             <div id="result" class="draggable ui-widget" title="You can drag this window">
                 <div class="ui-widget-header">Interpreter output</div>
                 <div id="output" >
@@ -38,6 +37,13 @@
         </div>
         <div id="bottom" class="i-widget-content">
             <button id="send_button" class="ui-button-text-only ui-button">SUBMIT</button> 
+            <p id="vanitybadge">
+            <a href="http://jigsaw.w3.org/css-validator/check/referer">
+                <img style="border:0;width:88px;height:31px"
+                src="http://jigsaw.w3.org/css-validator/images/vcss"
+                alt="Valid CSS!" />
+            </a>
+            </p>
         </div>
         <script>
             var editor = ace.edit("editor");
